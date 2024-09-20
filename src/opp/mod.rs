@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+
 #[derive(Debug)]
 pub struct OPP {
     set: HashSet<usize>,
@@ -15,6 +16,15 @@ impl OPP {
 
     pub fn new(set: HashSet<usize>, top: Vec<Vec<usize>>, bottom: Vec<Vec<usize>>) -> Self {
         Self { set, top, bottom }
+    }
+
+    // given a target vertex, create all branches at a level
+    pub fn create_branches(&self, target_cell: &usize, target_vertex: &usize) -> Vec<Self> {
+        let mut layer: Vec<Self> = Vec::new();
+        for i in self.set.iter() {
+            layer.push(self.create_branch(target_cell, target_vertex, i));
+        }
+        layer
     }
 
     pub fn create_branch(
