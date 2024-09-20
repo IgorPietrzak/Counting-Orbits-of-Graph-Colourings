@@ -18,6 +18,20 @@ impl OPP {
         Self { set, top, bottom }
     }
 
+    pub fn is_isomorphic(&self) -> bool {
+        match self.top.len() == self.bottom.len() {
+            true => {
+                for (i, j) in self.top.iter().zip(self.bottom.iter()) {
+                    if i.len() != j.len() {
+                        return false;
+                    }
+                }
+                true
+            }
+            false => false,
+        }
+    }
+
     // given a target vertex, create all branches at a level
     pub fn create_branches(&self, target_cell: &usize, target_vertex: &usize) -> Vec<Self> {
         let mut layer: Vec<Self> = Vec::new();
