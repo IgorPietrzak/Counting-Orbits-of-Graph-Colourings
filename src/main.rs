@@ -1,5 +1,5 @@
-use std::collections::{HashMap, HashSet};
-mod opp;
+use opp::graph::Graph;
+use std::collections::HashSet;
 
 // SAUCY PAPER: http://alcom.ee.ntu.edu.tw/system/privatezone/meetingfile/201210041839101.pdf
 
@@ -8,19 +8,7 @@ fn main() {
     set.insert(0);
     set.insert(1);
     set.insert(2);
-    let opp = opp::OPP::new(set, vec![vec![0, 1, 2]], vec![vec![0, 1, 2]]);
-    println!("{:?}", opp.is_isomorphic());
-    let branches = opp.create_branches(&0, &1);
-    for i in branches {
-        i.print();
-        println!("\n");
-    }
-}
 
-// IDEAS:
-/*
-- Make a graph struct to and in the constructor compute the degree of each vertex,
-  this should be sufficient for the partition refinement.
-- How do we verify that an automorphism is valid? - Go from the definition?
-- Before creating a new layer of branches, make sure the OPP is isomorphic.
-*/
+    let graph = Graph::new(vec![vec![1, 2], vec![0, 2], vec![1, 0]]);
+    println!("{:?}", graph);
+}

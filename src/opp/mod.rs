@@ -7,7 +7,6 @@ pub struct OPP {
     pub bottom: Vec<Vec<usize>>,
 }
 
-// isomorphic hopefully - need to have a check for non-isomorphic ones
 impl OPP {
     pub fn print(&self) {
         println!("{:?}", self.top);
@@ -36,17 +35,12 @@ impl OPP {
     pub fn create_branches(&self, target_cell: &usize, target_vertex: &usize) -> Vec<Self> {
         let mut layer: Vec<Self> = Vec::new();
         for i in self.set.iter() {
-            layer.push(self.create_branch(target_cell, target_vertex, i));
+            layer.push(self.refine(target_cell, target_vertex, i));
         }
         layer
     }
 
-    pub fn create_branch(
-        &self,
-        target_cell: &usize,
-        target_vertex: &usize,
-        maps_to: &usize,
-    ) -> Self {
+    pub fn refine(&self, target_cell: &usize, target_vertex: &usize, maps_to: &usize) -> Self {
         let top_cell = self.top[*target_cell].clone();
         let bottom_cell = self.bottom[*target_cell].clone();
         let vertex = top_cell[*target_vertex];
@@ -101,5 +95,12 @@ mod test {
     #[test]
     fn test_remove() {
         println!("{:?}", remove_element(vec![0, 1, 2], &0));
+    }
+    #[test]
+    fn test_range() {
+        println!("RANGE: {:?}", 0..3);
+        for i in 0..3 {
+            println!("{:?}", i);
+        }
     }
 }
