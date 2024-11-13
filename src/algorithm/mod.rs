@@ -4,11 +4,11 @@ use crate::{graph::Graph, opp::OPP};
 pub mod infection;
 
 // compact way of tracking algorithm state.
-#[derive(Debug)]
 pub struct Algorithm {
     pub orbit_reps: Vec<Vec<Vec<usize>>>,
     pub current_reps: Vec<Vec<usize>>,
     pub n: usize,
+    infection_set: Vec<Vec<usize>>,
     pi: OPP, // input
 }
 
@@ -17,6 +17,11 @@ impl Algorithm {
         println!("====================================================================");
         println!("\n\n\n-----------------------------------------------------------");
         println!("CURRENT STATE");
+        println!("-----------------------------------------------------------\n");
+        println!("INFECTION SET: \n");
+        for i in self.infection_set.clone() {
+            println!("* {:?}\n", i);
+        }
         println!("-----------------------------------------------------------\n");
         println!("ORBIT REPS: \n");
         for i in self.orbit_reps.clone() {
@@ -41,12 +46,14 @@ impl Algorithm {
         let n = graph.vertices.len();
         let orbit_reps: Vec<Vec<Vec<usize>>> = vec![vec![vec![0; n]]]; // trivial colouring at level 0.
         let pi = pi;
+        let infection_set = infection_set(vec![0; n]);
 
         Self {
             orbit_reps,
             current_reps,
             n,
             pi,
+            infection_set,
         }
     }
 
@@ -56,9 +63,7 @@ impl Algorithm {
 
     pub fn run(&mut self) {
         // run saucy to get PI
-        let infection_set = infection::infection_set(vec![0; self.n]);
-        println!("is: {:?}", infection_set);
-        self.current_reps.push(infection_set[0].clone());
+        self.current_reps.push(self.infection_set[0].clone());
         self.orbit_reps.push(self.current_reps.clone());
         self.reset_level();
         // run layers until floor(N/2)
@@ -68,8 +73,6 @@ impl Algorithm {
 #[cfg(test)]
 mod test {
     use super::infection::infection_set;
-    use crate::opp::OPP;
-    use std::collections::HashSet;
 
     #[test]
     fn test_infection() {
