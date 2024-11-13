@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 #[derive(Debug)]
 pub struct OPP {
-    set: HashSet<usize>,
+    pub set: HashSet<usize>,
     pub top: Vec<Vec<usize>>,
     pub bottom: Vec<Vec<usize>>,
 }
@@ -30,8 +30,8 @@ impl OPP {
             false => false,
         }
     }
-
-    // given a target vertex, create all branches at a level
+    // NOT-NEEDED:
+    // given a target vertex, create all branches at a level - No need for this
     pub fn create_branches(&self, target_cell: &usize, target_vertex: &usize) -> Vec<Self> {
         let mut layer: Vec<Self> = Vec::new();
         for i in self.set.iter() {
@@ -39,7 +39,7 @@ impl OPP {
         }
         layer
     }
-
+    // No need for this as well?
     pub fn refine(&self, target_cell: &usize, target_vertex: &usize, maps_to: &usize) -> Self {
         let top_cell = self.top[*target_cell].clone();
         let bottom_cell = self.bottom[*target_cell].clone();
@@ -89,18 +89,18 @@ fn remove_element(vec: Vec<usize>, index: &usize) -> Vec<usize> {
         .collect()
 }
 
-#[cfg(test)]
-mod test {
-    use super::remove_element;
-    #[test]
-    fn test_remove() {
-        println!("{:?}", remove_element(vec![0, 1, 2], &0));
-    }
-    #[test]
-    fn test_range() {
-        println!("RANGE: {:?}", 0..3);
-        for i in 0..3 {
-            println!("{:?}", i);
-        }
-    }
-}
+// #[cfg(test)]
+// mod test {
+//     use super::remove_element;
+//     #[test]
+//     fn test_remove() {
+//         println!("{:?}", remove_element(vec![0, 1, 2], &0));
+//     }
+//     #[test]
+//     fn test_range() {
+//         println!("RANGE: {:?}", 0..3);
+//         for i in 0..3 {
+//             println!("{:?}", i);
+//         }
+//     }
+// }

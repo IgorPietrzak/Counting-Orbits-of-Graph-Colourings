@@ -6,13 +6,15 @@ use crate::opp::OPP;
 #[derive(Debug)]
 pub struct Graph {
     pub adj_mat: Vec<Vec<usize>>,
+    pub vertices: Vec<usize>,
 }
 impl Graph {
     pub fn new(adj_mat: Vec<Vec<usize>>) -> Self {
-        Graph { adj_mat }
+        let vertices: Vec<usize> = (0..adj_mat.len()).collect();
+        Graph { adj_mat, vertices }
     }
 
-    // degree based pruning decides what OPP we begin with. O(n)
+    // degree based pruning decides what OPP we begin with. O(n) - No need for this we get orbit partition from saucy.
     pub fn get_opp(&self) -> OPP {
         let mut set: HashSet<usize> = HashSet::new();
         for i in 0..self.adj_mat.len() {
@@ -27,7 +29,7 @@ impl Graph {
         }
         OPP::new(set, top, bottom)
     }
-
+    // Multithread this??
     fn sort_by_degree(&self) -> Vec<Vec<usize>> {
         let mut seen: Vec<usize> = Vec::new();
         let mut compatibility_vec: Vec<Vec<usize>> = Vec::new();
@@ -36,7 +38,6 @@ impl Graph {
             if seen.len() == self.adj_mat.len() {
                 break;
             }
-            println!("Iteration");
             let mut compatible_nodes = Vec::new();
             compatible_nodes.push(i);
             seen.push(i);
@@ -63,6 +64,7 @@ impl Graph {
 // #[cfg(test)]
 // mod test {
 //     use super::Graph;
+
 //     #[test]
 //     fn test_sorting_by_degree() {
 //         let graph = Graph::new(vec![vec![1], vec![0, 2], vec![1]]);
