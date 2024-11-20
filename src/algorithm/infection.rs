@@ -1,7 +1,7 @@
 use crate::opp::OPP;
 use rayon::prelude::*; //multithreading lib
 
-pub fn infection_set_orbits(opp: OPP) -> Vec<Vec<Vec<usize>>> {
+fn infection_set_orbits(opp: OPP) -> Vec<Vec<Vec<usize>>> {
     let cells: Vec<Vec<usize>> = opp.top;
     cells
         .par_iter() // run iterations in parallel
@@ -17,7 +17,15 @@ pub fn infection_set_orbits(opp: OPP) -> Vec<Vec<Vec<usize>>> {
         .collect()
 }
 
-pub fn infection_set(colouring: Vec<usize>) -> Vec<Vec<usize>> {
+pub fn infection_set(current_reps: &Vec<Vec<usize>>) -> Vec<Vec<usize>> {
+    let mut infection_set = Vec::new();
+    for colouring in current_reps {
+        infection_set.extend(build_infection(colouring));
+    }
+    infection_set
+}
+
+fn build_infection(colouring: &Vec<usize>) -> Vec<Vec<usize>> {
     let parallel_colourings: Vec<Vec<usize>> = (0..colouring.len())
         .into_par_iter() // creates parallel iterator.
         .filter_map(|i| {
@@ -32,4 +40,14 @@ pub fn infection_set(colouring: Vec<usize>) -> Vec<Vec<usize>> {
         .collect();
 
     parallel_colourings
+}
+
+#[cfg(test)]
+mod test {
+    use super::infection_set;
+    #[test]
+    fn test_infection() {
+        let reps = vec![vec![0, 0, 0, 0], vec![1, 0, 0, 0]];
+        println!("INFECTION SET: {:?}", infection_set(&reps));
+    }
 }

@@ -30,63 +30,17 @@ impl OPP {
             false => false,
         }
     }
-    // NOT-NEEDED:
-    // given a target vertex, create all branches at a level - No need for this
-    pub fn create_branches(&self, target_cell: &usize, target_vertex: &usize) -> Vec<Self> {
-        let mut layer: Vec<Self> = Vec::new();
-        for i in self.set.iter() {
-            layer.push(self.refine(target_cell, target_vertex, i));
+
+    pub fn is_matching(&self) -> bool {
+        for (cell_t, cell_b) in std::iter::zip(self.top.clone(), self.bottom.clone()) {
+            if cell_t.len() > 1 {
+                if cell_t != cell_b {
+                    return false;
+                }
+            }
         }
-        layer
+        true
     }
-    // No need for this as well?
-    pub fn refine(&self, target_cell: &usize, target_vertex: &usize, maps_to: &usize) -> Self {
-        let top_cell = self.top[*target_cell].clone();
-        let bottom_cell = self.bottom[*target_cell].clone();
-        let vertex = top_cell[*target_vertex];
-        let mapped = bottom_cell[*maps_to];
-        // cells before target stay the same, on top and bottom:
-        let mut new_top_op: Vec<Vec<usize>> = Vec::new();
-        let mut new_bottom_op: Vec<Vec<usize>> = Vec::new();
-        let mut i = 0;
-        while &i < target_cell {
-            new_top_op.push(self.top[i].clone());
-            new_bottom_op.push(self.bottom[i].clone());
-            i += 1;
-        }
-
-        // The next cells are target cells with target vertices removed:
-        let without_target_top = remove_element(top_cell, target_vertex);
-        let without_target_bottom = remove_element(bottom_cell, maps_to);
-        new_top_op.push(without_target_top);
-        new_bottom_op.push(without_target_bottom);
-
-        // Insert the singleton target vertex cells:
-        new_top_op.push(vec![vertex]);
-        new_bottom_op.push(vec![mapped]);
-
-        // insert the cells after the target cell:
-        let mut i = *target_cell + 1;
-        while i < self.top.len() {
-            new_top_op.push(self.top[i].clone());
-            new_bottom_op.push(self.bottom[i].clone());
-            i += 1;
-        }
-        Self {
-            set: self.set.clone(),
-            top: new_top_op,
-            bottom: new_bottom_op,
-        }
-    }
-}
-
-// HELPERS:
-fn remove_element(vec: Vec<usize>, index: &usize) -> Vec<usize> {
-    vec.into_iter()
-        .enumerate()
-        .filter(|(i, _)| *i != *index)
-        .map(|(_, elem)| elem)
-        .collect()
 }
 
 // #[cfg(test)]
