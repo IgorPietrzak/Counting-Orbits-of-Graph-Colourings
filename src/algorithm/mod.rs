@@ -3,6 +3,7 @@ use infection::infection_set;
 
 pub mod infection;
 mod logger;
+mod refinement;
 
 // compact way of tracking algorithm state.
 pub struct Algorithm {

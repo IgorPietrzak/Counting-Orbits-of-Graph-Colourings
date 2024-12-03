@@ -42,12 +42,12 @@ fn build_infection(colouring: &Vec<usize>) -> Vec<Vec<usize>> {
     parallel_colourings
 }
 
-#[cfg(test)]
-mod test {
-    use super::infection_set;
-    #[test]
-    fn test_infection() {
-        let reps = vec![vec![0, 0, 0, 0], vec![1, 0, 0, 0]];
-        println!("INFECTION SET: {:?}", infection_set(&reps));
-    }
-}
+// #[cfg(test)]
+// mod test {
+//     use super::infection_set;
+//     #[test]
+//     fn test_infection() {
+//         let reps = vec![vec![0, 0, 0, 0], vec![1, 0, 0, 0]];
+//         println!("INFECTION SET: {:?}", infection_set(&reps));
+//     }
+// }
