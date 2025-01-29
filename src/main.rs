@@ -8,12 +8,11 @@ fn main() {
     for i in 0..3 {
         set.insert(i);
     }
-    let top = vec![vec![1], vec![0, 2]];
-    let bottom = top.clone();
     let graph = Graph::new(vec![vec![1], vec![0, 2], vec![1]]);
-    let pi = OPP { set, top, bottom };
-    let mut algorithm_state = opp::algorithm::Algorithm::init(graph, pi);
-    algorithm_state.print_current_state();
-    algorithm_state.run();
-    algorithm_state.print_current_state();
+    let pi = graph.get_opp();
+    pi.print();
+    let new = pi.individualise(0, 2);
+    println!("------------------------------------------------");
+    new.print();
+    println!("{}", new.is_isomorphic());
 }

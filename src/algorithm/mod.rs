@@ -1,6 +1,7 @@
 use crate::{graph::Graph, opp::OPP};
 use infection::infection_set;
 
+mod automorphism;
 pub mod infection;
 mod logger;
 mod refinement;
