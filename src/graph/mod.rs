@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 use crate::opp::OPP;
 
@@ -32,32 +32,17 @@ impl Graph {
     }
     // Multithread this??
     fn sort_by_degree(&self) -> Vec<Vec<usize>> {
-        let mut seen: Vec<usize> = Vec::new();
-        let mut compatibility_vec: Vec<Vec<usize>> = Vec::new();
-
+        // store count:[vertices] in hashmap
+        let mut count_map: HashMap<usize, Vec<usize>> = HashMap::new();
         for i in 0..self.adj_mat.len() {
-            if seen.len() == self.adj_mat.len() {
-                break;
-            }
-            let mut compatible_nodes = Vec::new();
-            compatible_nodes.push(i);
-            seen.push(i);
-
-            for j in 0..self.adj_mat.len() {
-                if !seen.contains(&j) {
-                    // .contains() is O(n)
-                    match self.adj_mat[i].len() == self.adj_mat[j].len() {
-                        true => {
-                            seen.push(j);
-                            compatible_nodes.push(j);
-                        }
-                        false => {}
-                    }
-                }
-            }
-            compatibility_vec.push(compatible_nodes);
+            let degree = self.adj_mat[i].len();
+            // if len in hashmap, increment its count if not set to one.
+            count_map.entry(degree).or_insert_with(Vec::new).push(i);
         }
-
+        let mut compatibility_vec = Vec::new();
+        for value in count_map.values() {
+            compatibility_vec.push(value.clone());
+        }
         compatibility_vec
     }
     pub fn generate_partition_of_Vk(&self, W: &Vec<usize>, Vk: &Vec<usize>) -> Vec<Vec<usize>> {

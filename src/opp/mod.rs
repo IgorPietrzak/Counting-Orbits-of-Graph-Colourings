@@ -1,6 +1,7 @@
 use std::collections::HashSet;
+mod search_tree;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct OPP {
     pub set: HashSet<usize>,
     pub top: Vec<Vec<usize>>,
@@ -37,6 +38,18 @@ impl OPP {
                 if cell_t != cell_b {
                     return false;
                 }
+            }
+        }
+        true
+    }
+
+    pub fn is_discrete(&self) -> bool {
+        if !self.is_isomorphic() {
+            return false;
+        }
+        for i in self.top.iter() {
+            if i.len() != 1 {
+                return false;
             }
         }
         true
@@ -86,6 +99,19 @@ impl OPP {
             top: new_top,
             bottom: new_bottom,
         }
+    }
+
+    pub fn get_target_cell(&self) -> usize {
+        let mut target_index = 0;
+        for i in 0..self.top.len() {
+            if self.top[i].len() > 1 {
+                target_index = i;
+                break;
+            }
+        }
+
+        // return first valid target vertex - this is a heuristic maybe there's randomness stuff that makes this better.
+        target_index
     }
 }
 
