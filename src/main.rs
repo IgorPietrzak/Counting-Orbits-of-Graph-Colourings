@@ -1,4 +1,5 @@
-use opp::{graph::Graph, opp::OPP};
+use ::opp::graph::Graph;
+use opp::opp;
 use std::collections::HashSet;
 
 // SAUCY PAPER: http://alcom.ee.ntu.edu.tw/system/privatezone/meetingfile/201210041839101.pdf
@@ -10,10 +11,20 @@ fn main() {
     }
     // first saucy example graph
     let graph = Graph::new(vec![vec![2], vec![2], vec![0, 1]]);
-    let pi = graph.get_opp();
+    // 2nd big example from saucy
+    let graph2 = Graph::new(vec![
+        vec![1, 3],
+        vec![0, 2],
+        vec![1, 3],
+        vec![0, 2],
+        vec![6, 5],
+        vec![4, 6],
+        vec![4, 5],
+    ]);
+    let pi = graph2.get_opp();
+    println!("GENERATED OPP:");
     pi.print();
-    let new = pi.individualise(0, 1);
-    println!("------------------------------------------------");
-    new.print();
-    println!("{}", new.is_discrete());
+    println!("PERMUTATIONS FOUND:");
+    let permutations = opp::search_tree::get_permuations(pi);
+    println!("{:?}", permutations.len());
 }

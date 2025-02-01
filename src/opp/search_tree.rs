@@ -23,6 +23,7 @@ pub fn get_permuations(opp: OPP) -> Vec<Vec<usize>> {
             permuatations.push(permutation);
             continue;
         }
+        // USE MCKAY REFINEMENT HERE TO CHECK IF IT REFINES ISOMORPHICALLY
         let children_nodes = get_children(curr_node.0, curr_node.1);
         stack.extend(children_nodes);
     }

@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-mod search_tree;
+pub mod search_tree;
 
 #[derive(Debug, Clone)]
 pub struct OPP {
