@@ -1,5 +1,4 @@
 use ::opp::graph::Graph;
-use opp::opp;
 use std::collections::HashSet;
 
 // SAUCY PAPER: http://alcom.ee.ntu.edu.tw/system/privatezone/meetingfile/201210041839101.pdf
@@ -21,10 +20,6 @@ fn main() {
         vec![4, 6],
         vec![4, 5],
     ]);
-    let pi = graph2.get_opp();
-    println!("GENERATED OPP:");
-    pi.print();
-    println!("PERMUTATIONS FOUND:");
-    let permutations = opp::search_tree::get_permuations(pi);
-    println!("{:?}", permutations.len());
+    let permutations = graph2.get_automorphisms();
+    println!("Aut(G) = {:?}", permutations);
 }

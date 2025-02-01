@@ -1,6 +1,6 @@
-use std::collections::{BTreeMap, HashMap, HashSet};
-
+use crate::opp::search_tree::get_permuations;
 use crate::opp::OPP;
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 // use an adjacency matrix as it is more effcient than a hashmap.
 #[derive(Debug)]
@@ -13,6 +13,11 @@ impl Graph {
     pub fn new(adj_mat: Vec<Vec<usize>>) -> Self {
         let vertices: Vec<usize> = (0..adj_mat.len()).collect();
         Graph { adj_mat, vertices }
+    }
+
+    pub fn get_automorphisms(&self) -> Vec<Vec<usize>> {
+        let pi = self.get_opp();
+        get_permuations(pi, &self)
     }
 
     // degree based pruning decides what OPP we begin with. O(n) - No need for this we get orbit partition from saucy.

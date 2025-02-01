@@ -1,7 +1,7 @@
 use crate::{graph::Graph, opp::OPP};
 use infection::infection_set;
 
-mod automorphism;
+pub mod automorphism;
 pub mod infection;
 mod logger;
 mod refinement;
@@ -21,11 +21,11 @@ impl Algorithm {
         logger::log(self);
     }
 
-    pub fn init(graph: Graph, pi: OPP) -> Self {
+    pub fn init(graph: Graph) -> Self {
         let n = graph.vertices.len();
         let current_reps: Vec<Vec<usize>> = vec![vec![0; n]];
         let orbit_reps: Vec<Vec<Vec<usize>>> = vec![vec![vec![0; n]]]; // trivial colouring at level 0.
-        let pi = pi; // GET THIS FROM SAUCY
+        let pi = graph.get_opp();
         let infection_set = infection_set(&current_reps);
         let infected = 1;
 
@@ -50,6 +50,7 @@ impl Algorithm {
 
     // EACH_LEVEL:
     pub fn run_level(&mut self) {
+        self.print_current_state();
         self.current_reps.push(self.infection_set[0].clone());
         self.test_colourings(); // populate current_reps based off this.
         self.orbit_reps.push(self.current_reps.clone()); // add this levels reps to orbit_reps.
@@ -63,7 +64,10 @@ impl Algorithm {
     }
 
     fn test_colourings(&mut self) {
-        todo!() // WHOLE SEPARATE MODULE FOR THIS ALGORITHM.
+        // take in the infection set
+        // for graphs with low symmetry precompute the automorphisms
+        // drag aut through colourings one by one eliminating ones that are in anothers orbit.
+        todo!()
     }
 
     fn invert_colourings(&mut self) {
