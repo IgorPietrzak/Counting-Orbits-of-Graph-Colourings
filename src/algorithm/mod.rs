@@ -47,7 +47,7 @@ impl Algorithm {
 
     // MAIN_LOOP:
     pub fn run(&mut self) {
-        while (self.infected as f32) < ((self.n / 2) as f32).floor() {
+        while (self.infected as f32) <= ((self.n / 2) as f32).floor() {
             self.run_level();
         }
 

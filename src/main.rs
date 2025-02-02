@@ -22,7 +22,7 @@ fn main() {
         vec![4, 5],
     ]);
 
-    let mut alg = Algorithm::init(graph2);
+    let mut alg = Algorithm::init(graph);
     alg.run();
     let orbits = alg.orbit_reps;
     let set: HashSet<_> = orbits.into_iter().collect();
