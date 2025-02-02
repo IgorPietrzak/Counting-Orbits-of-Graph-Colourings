@@ -5,7 +5,7 @@ use crate::graph::Graph;
 use std::collections::HashMap;
 
 // Need to create a new struct which captures permuations
-pub fn get_permuations(opp: OPP, graph: &Graph) -> Vec<Vec<usize>> {
+pub fn get_permuations(opp: &OPP, graph: &Graph) -> Vec<Vec<usize>> {
     // get target vertex
     let adj_mat = graph.adj_mat.clone();
     let mut permuatations = Vec::new();
@@ -19,7 +19,7 @@ pub fn get_permuations(opp: OPP, graph: &Graph) -> Vec<Vec<usize>> {
     let root_target_cell = opp.get_target_cell();
 
     let mut stack: Vec<(OPP, usize)> = Vec::new();
-    stack.push((opp, root_target_cell));
+    stack.push((opp.clone(), root_target_cell));
 
     while stack.len() > 0 {
         let curr_node = stack.pop().unwrap(); // LIFO

@@ -17,7 +17,7 @@ impl Graph {
 
     pub fn get_automorphisms(&self) -> Vec<Vec<usize>> {
         let pi = self.get_opp();
-        get_permuations(pi, &self)
+        get_permuations(&pi, &self)
     }
 
     // degree based pruning decides what OPP we begin with. O(n) - No need for this we get orbit partition from saucy.

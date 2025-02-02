@@ -1,3 +1,4 @@
+use ::opp::algorithm::Algorithm;
 use ::opp::graph::Graph;
 use std::collections::HashSet;
 
@@ -20,6 +21,10 @@ fn main() {
         vec![4, 6],
         vec![4, 5],
     ]);
-    let permutations = graph2.get_automorphisms();
-    println!("Aut(G) = {:?}", permutations);
+
+    let mut alg = Algorithm::init(graph2);
+    alg.run();
+    let orbits = alg.orbit_reps;
+    let set: HashSet<_> = orbits.into_iter().collect();
+    println!("{:?}", set.len());
 }
